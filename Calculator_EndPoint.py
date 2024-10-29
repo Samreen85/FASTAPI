@@ -2,8 +2,7 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-@app.get("/calculate")
-async def calculate(operation: str, x: float, y: float):
+def calculate(operation, x, y):
     if operation == "add":
         result = x + y
     elif operation == "subtract":
@@ -18,5 +17,12 @@ async def calculate(operation: str, x: float, y: float):
         raise HTTPException(status_code=400, detail="Invalid operation")
 
     return {"operation": operation, "x": x, "y": y, "result": result}
+
+
+@app.get("/calculate")
+def main(operation: str, x: float, y: float):
+    return calculate(operation, x, y)
+
+
 
 # Access end point using: http://localhost:8000/calculate?operation=subtract&x=10&y=15
